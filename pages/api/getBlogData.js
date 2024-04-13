@@ -11,46 +11,36 @@ const handler = async (req, res) => {
   }
 
   try {
+    const fetchData = (tableName) => {
+      return new Promise((resolve, reject) => {
+        base(tableName).select().all((err, records) => {
+          if (err) {
+            console.error("Error fetching data:", err);
+            reject(err);
+            return;
+          }
 
-    let obj = {};
-
-    base("המלצות לטיולים").select().all((err, records) => {
-        if (err) {
-          console.error("Error fetching data:", err);
-          res.status(500).send("Error fetching data");
-          return;
-        }
-
-        let tripsAdvisement = records.map((record) => {
-          return {
-            photo: record.fields["תמונות"][0].url,
-            name : record.fields["שם"],
-            instructions : record.fields["הוראות"],
-            location : record.fields["מיקום"],
-          };
+          const data = records.map((record) => {
+            return {
+              photo: record.fields["תמונות"][0].url,
+              name: record.fields["שם"],
+              instructions: record.fields["הוראות"],
+              location: record.fields["מיקום"], // This field is specific to trips table
+              ingredients: record.fields["מרכיבים"] // This field is specific to recipes table
+            };
+          });
+          resolve(data);
         });
-        obj.tripsAdvisement = tripsAdvisement;
       });
+    };
 
-      base("מתכונים").select().all((err, records) => {
-        if (err) {
-          console.error("Error fetching data:", err);
-          res.status(500).send("Error fetching data");
-          return;
-        }
+    const [tripsAdvisement, recipes] = await Promise.all([
+      fetchData("המלצות לטיולים"),
+      fetchData("מתכונים")
+    ]);
 
-        let recepies = records.map((record) => {
-          return {
-            photo: record.fields["תמונות"][0].url,
-            name : record.fields["שם"],
-            instructions : record.fields["הוראות"],
-            ingridients : record.fields["מרכיבים"],
-          };
-        });
-        obj.recepies = recepies;
-      });
-
-      res.send(obj);
+    const obj = { tripsAdvisement, recipes };
+    res.send(obj);
   } catch (error) {
     console.error("Server error:", error);
     res.status(500).send("Internal Server Error");
