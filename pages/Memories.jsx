@@ -187,7 +187,7 @@ const MemoriesPage = () => {
             <ImageListItem
               sx={{ margin: "4%", borderRadius: "7px" }}
               key={idx}
-              onClick={() => handleOpen(memory)}
+              onClick={() => handleOpenStoryModal(memory)}
             >
               <img
                 key={idx}
