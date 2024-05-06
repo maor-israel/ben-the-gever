@@ -1,0 +1,13 @@
+.react-multi-carousel-track {
+    gap: 1vw;
+    .react-multi-carousel-item {
+        max-width: max-content;
+    }
+}
+
+button {
+    &.react-multiple-carousel__arrow {
+
+        z-index: 15;
+    }
+}
