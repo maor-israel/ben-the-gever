@@ -1,0 +1,25 @@
+.top-div-border-style {
+    position: absolute;
+    width: 110%;
+    border-radius: 50%;
+    background: #B4D4FF;
+    height: 20vh;
+    top: -36%;
+    left: -7%;
+    &.white {
+      background: white;
+    }
+  }
+
+.bottome-div-border-style {
+    position: absolute;
+    width: 110%;
+    border-radius:  50%/50%;
+    background: #B4D4FF;
+    height: 20vh;
+    bottom: -35%;
+    left: -7%;
+    &.white {
+      background: white;
+    }
+  }
